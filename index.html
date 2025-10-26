@@ -14,7 +14,7 @@
 
     <!-- 
       内联Lucide Icons SVG Data
-      更新：增加了 'sparkles', 'cpu', 'more-horizontal'
+      更新：增加了 'sparkles', 'cpu', 'more-horizontal', 'eye', 'eye-off'
     -->
     <script>
         const icons = {
@@ -47,7 +47,9 @@
             // 新增图标
             'sparkles': '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.9 5.8-5.8 1.9 5.8 1.9L12 18l1.9-5.8 5.8-1.9-5.8-1.9L12 3z"/><path d="M5 3v4"/><path d="M19 17v4"/><path d="M3 5h4"/><path d="M17 19h4"/></svg>',
             'cpu': '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="16" x="4" y="4" rx="2"/><rect width="6" height="6" x="9" y="9" rx="1"/><path d="M15 2v2"/><path d="M15 20v2"/><path d="M2 15h2"/><path d="M2 9h2"/><path d="M20 15h2"/><path d="M20 9h2"/><path d="M9 2v2"/><path d="M9 20v2"/></svg>',
-            'more-horizontal': '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>'
+            'more-horizontal': '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>',
+            'eye': '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>',
+            'eye-off': '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"/><path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"/><path d="M6.61 6.61A13.16 13.16 0 0 0 2 12s3 7 10 7a9.23 9.23 0 0 0 3.6-1.56"/><line x1="2" y1="2" x2="22" y2="22"/></svg>',
         };
 
         // 图标渲染帮助函数
@@ -73,7 +75,7 @@
 
         /* 模拟手机屏幕 */
         .phone-screen {
-            max-width: 430px; /* 模拟iPhone 14 Pro Max宽度 */
+            max-width: 393px; /* 模拟 iPhone 14 Pro 的逻辑宽度 (393px) */
             min-height: 100vh;
             /* 在PC端居中显示，并带有阴影，增强“高级感” */
             margin: 0 auto;
@@ -89,54 +91,77 @@
             flex-grow: 1; /* 占据所有剩余空间 */
             overflow-y: auto;
             /* 底部留出空间给导航栏 */
-            padding-bottom: 72px; /* 导航栏高度 + 一点间距 */
+            padding-bottom: 70px; /* 导航栏高度 + 额外空间 */
         }
 
-        /* 底部导航栏 */
+        /* ================================================= */
+        /* 底部导航栏样式 (高级感升级) */
+        /* ================================================= */
         .bottom-nav {
-            height: 68px; /* 适配移动端点击区域 */
-            flex-shrink: 0; /* 防止被压缩 */
-            border-top: 1px solid #e5e7eb; /* bg-gray-200 */
-            background-color: rgba(255, 255, 255, 0.9); /* 半透明毛玻璃效果 */
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            height: 72px; /* 略微增加高度 */
+            flex-shrink: 0; 
+            border-top: 1px solid #e5e7eb; 
+            background-color: rgba(255, 255, 255, 0.95); /* 更不透明 */
+            backdrop-filter: blur(15px); /* 略微增强毛玻璃效果 */
+            -webkit-backdrop-filter: blur(15px);
+            /* 新增：轻微的顶部阴影，增加层次感 */
+            box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.03); 
+            padding-top: 4px; /* 留出空间给激活指示器 */
         }
 
+        /* 导航项 */
         .nav-item {
-            /* 激活状态 */
-            transition: all 0.2s ease-in-out;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); /* 更平滑的动画曲线 */
+            position: relative;
+            padding: 4px 0;
+            display: flex; /* 确保内容垂直居中 */
+            flex-direction: column;
+            align-items: center;
         }
         
+        /* 导航项激活状态 - 高级感指示器 */
         .nav-item.active {
             color: #4f46e5; /* text-indigo-600 */
         }
-        
-        /* 激活状态的图标和文字 */
+        .nav-item.active::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 25px; /* 指示器宽度 */
+            height: 4px; /* 指示器高度 */
+            background-color: #4f46e5; /* 靛蓝色 */
+            border-radius: 0 0 4px 4px; /* 略微圆角 */
+            transition: all 0.3s ease-in-out;
+        }
+
         .nav-item.active .nav-icon {
-            transform: scale(1.1); /* 激活时轻微放大 */
+            transform: none; /* 移除放大效果 */
         }
         .nav-item.active .nav-text {
-            font-weight: 600; /* 激活时加粗 */
+            font-weight: 600; 
         }
 
         /* 中间“发布”按钮 */
         .nav-item-center .nav-icon-center {
-            width: 48px;
-            height: 48px;
+            width: 52px; /* 略微增大 */
+            height: 52px;
             border-radius: 9999px;
-            background-image: linear-gradient(to top right, #4f46e5, #3b82f6); /* 渐变: 靛蓝-蓝 */
+            background-image: linear-gradient(to bottom right, #4f46e5, #3b82f6); /* 渐变 */
             color: white;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
-            transform: translateY(-16px); /* 向上凸起 */
-            transition: all 0.2s ease-out;
+            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.5); /* 更深的阴影 */
+            transform: translateY(-20px); /* 向上凸起更多 */
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
-        .nav-item-center:hover .nav-icon-center {
-            transform: translateY(-18px) scale(1.05); /* 悬停时轻微上浮 */
-            box-shadow: 0 6px 16px rgba(59, 130, 246, 0.5);
+        .nav-item-center:active .nav-icon-center {
+            transform: translateY(-18px) scale(0.95); /* 点击时下沉并缩小 */
+            box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3);
         }
+        /* ================================================= */
 
         /* 隐藏的页面 */
         .page.hidden {
@@ -219,7 +244,7 @@
                             <span data-icon="map-pin" class="w-5 h-5 text-indigo-600"></span>
                             <span class="font-semibold text-gray-800">浙江大学</span>
                             <span class="text-gray-500">(紫金港校区)</span>
-                            <span data-icon="chevron-down" class="w-4 h-4 text-gray-400"></span>
+                            <span data-icon="chevron-down" class="w-4 h-5 text-gray-400"></span>
                         </div>
                         <!-- 可以放一个扫码或通知图标 -->
                     </div>
@@ -231,13 +256,21 @@
                     </div>
                 </header>
 
-                <!-- 收益卡片 (新增) -->
+                <!-- 收益卡片 (新增交互) -->
                 <section class="p-4">
                     <div class="bg-gradient-to-br from-indigo-600 to-blue-500 p-5 rounded-2xl shadow-lg text-white relative overflow-hidden">
                         <div class="flex justify-between items-center">
                             <div>
                                 <p class="text-sm text-indigo-100 opacity-90">本月收益 (元)</p>
-                                <p class="text-4xl font-bold text-white mt-1">86.50</p>
+                                <!-- 收益金额和切换按钮 -->
+                                <div class="flex items-center gap-3">
+                                    <!-- ID: current-balance 用于 JS 切换显示 -->
+                                    <p class="text-4xl font-bold text-white mt-1" id="current-balance" data-value="86.50">86.50</p>
+                                    <!-- ID: toggle-balance-btn 用于绑定点击事件 -->
+                                    <button id="toggle-balance-btn" class="text-white/70 hover:text-white transition-colors mt-2" title="切换余额显示">
+                                         <!-- 初始图标在 JS 中设置 -->
+                                    </button>
+                                </div>
                             </div>
                             <!-- 快捷入口，点击去“我的”钱包 -->
                             <button onclick="showPage('page-me');" class="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-white active:bg-white/30 transition-all">
@@ -283,7 +316,6 @@
                             </div>
                             <span class="text-xs font-medium text-gray-700 mt-1.5">跑腿代办</span>
                         </a>
-                        <!-- 移除: 图片设计 (已删除) -->
                         <!-- 家教辅导 -->
                         <a href="#" class="category-item flex flex-col items-center justify-center">
                             <div class="category-icon text-blue-600">
@@ -386,7 +418,7 @@
                                 </div>
                             </div>
                             <p class="text-gray-700 mt-3">
-                                【求助】有人会用PS做海报吗？周五前要一张活动海报，主题是“AI与未来”，预算 <strong>¥100</strong>，有意请私聊！
+                                【求助】有人会用PS做海报吗？周五前要一张活动海报，主题是“关于AI幻觉的处理”，预算 <strong>¥100</strong>，有意请私聊！
                             </p>
                             <div class="mt-3 p-2.5 bg-slate-100 rounded-lg text-xs text-indigo-700 font-medium">
                                 #浙大校园圈 #设计求助 #悬赏任务
@@ -399,7 +431,7 @@
                                 <span class="text-lg font-semibold text-gray-800">代拿快递（西区-蓝田）</span>
                                 <span class="text-lg font-bold text-indigo-600">¥ 3.00</span>
                             </div>
-                            <p class="text-sm text-gray-500 mt-1.5">西区菜鸟驿站小件，送到蓝田5舍楼下。</p>
+                            <p class="text-sm text-gray-500 mt-1.5">西区菜鸟驿站小件，送到云峰4幢楼下。</p>
                             <div class="flex items-center gap-3 mt-4 text-sm text-gray-600">
                                 <span class="flex items-baseline gap-4 px-3 py-1.5 bg-slate-100 text-slate-700 rounded-full font-medium">
                                     <span data-icon="clock" class="w-4 h-4"></span> 立即
@@ -418,14 +450,6 @@
                         </div>
                     </div>
                 </section>
-
-                <!-- 移除原有的校园圈板块 -->
-                <!-- 
-                 <section class="p-4">
-                    ... (原校园圈板块内容已被删除)
-                 </section>
-                -->
-
             </div>
 
             <!-- ========================= -->
@@ -456,8 +480,8 @@
                     <div class="flex overflow-x-auto space-x-3 pb-3 snap-x snap-mandatory">
                         <!-- AI推荐卡片 1 (更小) -->
                         <div class="snap-start flex-shrink-0 w-[70%] bg-white border border-slate-100 rounded-xl p-3 shadow-sm">
-                            <span class="text-base font-semibold text-gray-800">代取外卖（云峰-白沙）</span>
-                            <p class="text-xs text-gray-500 mt-1 truncate">云峰食堂一楼，送到白沙...</p>
+                            <span class="text-base font-semibold text-gray-800">代取外卖（蓝田-白沙）</span>
+                            <p class="text-xs text-gray-500 mt-1 truncate">蓝田北门外卖柜，送到白沙...</p>
                             <div class="flex justify-between items-center mt-2">
                                 <span class="text-base font-bold text-indigo-600">¥ 2.00</span>
                                 <span class="text-xs text-gray-400">刚刚发布</span>
@@ -502,7 +526,7 @@
                                 <span data-icon="clock" class="w-4 h-4"></span> 约1.5小时
                             </span>
                             <span class="flex items-baseline gap-4 px-3 py-1.5 bg-slate-100 text-slate-700 rounded-full font-medium">
-                                <span data-icon="map-pin" class="w-4 h-4"></span> 西溪校区
+                                <span data-icon="map-pin" class="w-4 h-4"></span> 华家池校区
                             </span>
                         </div>
                     </div>
@@ -620,10 +644,10 @@
                     <div class="flex items-center gap-4">
                         <img src="https://placehold.co/80x80/FFFFFF/4f46e5?text=π" alt="User Avatar" class="w-16 h-16 rounded-full border-4 border-white shadow-lg">
                         <div>
-                            <h2 class="text-2xl font-bold text-white">拾光派大星</h2>
-                            <p class="text-sm text-indigo-100 mt-1">ID: 324*******</p> 
+                            <h2 class="text-2xl font-bold text-white">ccc</h2>
+                            <p class="text-sm text-indigo-100 mt-1">ID: 323*******</p> 
                             <span class="inline-block mt-1.5 px-3 py-0.5 bg-white/30 text-white text-xs font-medium rounded-full">
-                                浙江大学 · 管理学院
+                                浙江大学 · 控制科学与工程学院
                             </span>
                         </div>
                     </div>
@@ -713,33 +737,33 @@
             <div class="flex justify-around items-center h-full">
                 
                 <!-- 首页 -->
-                <button onclick="showPage('page-home')" class="nav-item active flex flex-col items-center justify-center text-gray-500" data-page="page-home">
+                <button onclick="showPage('page-home')" class="nav-item active flex-1" data-page="page-home">
                     <span class="nav-icon w-6 h-6" data-icon="home"></span>
                     <span class="nav-text text-xs mt-0.5">首页</span>
                 </button>
                 
                 <!-- 任务 -->
-                <button onclick="showPage('page-tasks')" class="nav-item flex flex-col items-center justify-center text-gray-500" data-page="page-tasks">
+                <button onclick="showPage('page-tasks')" class="nav-item flex-1" data-page="page-tasks">
                     <span class="nav-icon w-6 h-6" data-icon="layout-grid"></span>
                     <span class="nav-text text-xs mt-0.5">任务</span>
                 </button>
                 
                 <!-- 发布 (中间凸起按钮) -->
-                <button class="nav-item-center">
+                <button class="nav-item-center flex-1 flex flex-col items-center justify-center">
                     <span class="nav-icon-center">
                         <span data-icon="plus-circle" class="w-6 h-6"></span>
                     </span>
-                    <!-- 这个按钮没有文字，或者文字在JS里处理 -->
+                    <!-- 保持按钮干净，没有文字 -->
                 </button>
 
-                <!-- 校园圈 (修改为 "消息") -->
-                <button onclick="showPage('page-messages')" class="nav-item flex flex-col items-center justify-center text-gray-500" data-page="page-messages">
+                <!-- 消息 -->
+                <button onclick="showPage('page-messages')" class="nav-item flex-1" data-page="page-messages">
                     <span class="nav-icon w-6 h-6" data-icon="inbox"></span>
                     <span class="nav-text text-xs mt-0.5">消息</span>
                 </button>
 
                 <!-- 我的 -->
-                <button onclick="showPage('page-me')" class="nav-item flex flex-col items-center justify-center text-gray-500" data-page="page-me">
+                <button onclick="showPage('page-me')" class="nav-item flex-1" data-page="page-me">
                     <span class="nav-icon w-6 h-6" data-icon="user"></span>
                     <span class="nav-text text-xs mt-0.5">我的</span>
                 </button>
@@ -778,8 +802,7 @@
                 targetPage.classList.remove('hidden');
             }
 
-            // *** 修改: 每次切换页面时都重新渲染图标 ***
-            // 这样可以确保新显示的页面 (如"任务大厅") 里的图标也能被画出来
+            // 每次切换页面时都重新渲染图标
             renderAllIcons();
 
             // 更新导航栏激活状态 (更健壮的逻辑)
@@ -797,18 +820,63 @@
                 contentBody.scrollTop = 0;
             }
         }
+        
+        // ======================================
+        // 首页收益卡片交互逻辑 (请求 2)
+        // ======================================
+        let isBalanceVisible = true;
+        const BALANCE_VALUE = "86.50";
+        const MASKED_BALANCE = "***.**";
+        const BALANCE_ID = 'current-balance';
+        const TOGGLE_BTN_ID = 'toggle-balance-btn';
+        
+        /**
+         * 更新收益金额的显示状态和切换按钮的图标。
+         */
+        function updateBalanceDisplay() {
+            const balanceEl = document.getElementById(BALANCE_ID);
+            const toggleBtnEl = document.getElementById(TOGGLE_BTN_ID);
+            
+            if (!balanceEl || !toggleBtnEl) return;
+
+            // 切换文本内容
+            balanceEl.textContent = isBalanceVisible ? BALANCE_VALUE : MASKED_BALANCE;
+            
+            // 切换图标
+            const iconName = isBalanceVisible ? 'eye' : 'eye-off';
+            toggleBtnEl.innerHTML = `<span data-icon="${iconName}" class="w-6 h-6"></span>`;
+            
+            // 重新渲染图标（确保新图标 SVG 显示）
+            const iconSpan = toggleBtnEl.querySelector('[data-icon]');
+            if (iconSpan) {
+                renderIcon(iconSpan);
+            }
+        }
+
+        /**
+         * 切换收益的可见性状态。
+         */
+        function toggleBalanceVisibility() {
+            isBalanceVisible = !isBalanceVisible;
+            updateBalanceDisplay();
+        }
 
         // 页面加载时初始化
         document.addEventListener('DOMContentLoaded', () => {
-            // 1. 默认显示首页
+            // 1. 默认显示首页并渲染所有图标
             showPage('page-home');
+            
+            // 2. 绑定收益切换事件
+            const toggleBtn = document.getElementById(TOGGLE_BTN_ID);
+            if (toggleBtn) {
+                // 初始化显示
+                updateBalanceDisplay();
+                // 绑定点击事件
+                toggleBtn.addEventListener('click', toggleBalanceVisibility);
+            }
         });
 
     </script>
 </body>
 </html>
-
-
-
-
 
